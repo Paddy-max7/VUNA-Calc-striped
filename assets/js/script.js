@@ -131,7 +131,6 @@ function percentToResult() {
     currentExpression = percentVal.toString();
   }
 
-  // 🔥 ADD THIS LINE
   currentExpression += "*";
 
   updateResult();
@@ -142,7 +141,6 @@ function percentToResult() {
 // ------------------------------
 function calculateExpression(expression) {
   try {
-   
     let normalizedExpression = normalizeExpression(expression);
 
     // 🧠 Replace "ans" with last result automatically
@@ -154,7 +152,7 @@ function calculateExpression(expression) {
     // Calculate result
     let result = eval(normalizedExpression);
     console.log("Calculated result for expression:", expression, "->", result);
- 
+
     if (isNaN(result) || !isFinite(result)) {
       throw new Error();
     }
@@ -164,24 +162,42 @@ function calculateExpression(expression) {
     return "Error";
   }
 }
+
 function calculateResult() {
   if (!currentExpression) return;
-    const display = document.getElementById("result"); 
-    // Calculate result
+    const display = document.getElementById("result");
     let result = calculateExpression(currentExpression);
     result = String(result);
 
-    // Save result for future expressions
     LAST_RESULT = result;
 
-    // Display normally
     display.value = result;
 
     currentExpression = result;
     updateResult();
 }
 
-
 function updateResult() {
   document.getElementById("result").value = currentExpression || "0";
+}
+
+// ------------------------------
+// ★ Cube Root Feature
+// ------------------------------
+function cubeRootResult() {
+  if (!currentExpression) return;
+
+  const num = parseFloat(currentExpression);
+
+  if (isNaN(num)) {
+    document.getElementById("result").value = "Error";
+    currentExpression = "";
+    return;
+  }
+
+  const result = Math.cbrt(num);
+
+  LAST_RESULT = String(result);
+  currentExpression = String(result);
+  updateResult();
 }
